@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YC Showcase — Unveil Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #000; --surface: #080808; --elevated: #0f0f0f;
+      --border: rgba(255,255,255,0.07); --border-h: rgba(255,255,255,0.16);
+      --text: #fff; --text-2: rgba(255,255,255,0.48); --text-3: rgba(255,255,255,0.22);
+      --accent: #7C3AED; --accent-l: #9B6FF5; --yc: #F5803B; --max: 1200px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif;
+      font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; cursor: none; }
+
+    /* CURSOR */
+    #cursor { position: fixed; width: 8px; height: 8px; background: #fff; border-radius: 50%;
+      pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, opacity .2s; }
+    #cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%);
+      transition: width .3s, height .3s, opacity .3s; }
+    #cursor.hover { width: 0; height: 0; opacity: 0; }
+    #cursor-ring.hover { width: 52px; height: 52px; border-color: rgba(255,255,255,.5); }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 40px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .3s; }
+    nav.scrolled { background: rgba(0,0,0,.82); backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-mark { width: 26px; height: 26px; background: #fff; color: #000;
+      border-radius: 5px; display: grid; place-items: center; font-size: 12px; font-weight: 700; }
+    .nav-name { font-size: 15px; font-weight: 600; color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 14px; color: var(--text-2); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: #fff; }
+    .nav-cta { font-size: 13px; font-weight: 500; padding: 8px 16px;
+      background: #fff; color: #000; border-radius: 4px; text-decoration: none;
+      transition: opacity .2s; cursor: none; }
+    .nav-cta:hover { opacity: .85; }
+
+    /* HERO */
+    .page-hero { padding: 120px 40px 60px; max-width: var(--max); margin: 0 auto; }
+    .yc-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px;
+      font-weight: 600; color: var(--yc); border: 1px solid rgba(245,128,59,.25);
+      border-radius: 20px; padding: 3px 10px; margin-bottom: 20px; }
+    .yc-dot { width: 16px; height: 16px; background: var(--yc); color: #fff;
+      border-radius: 3px; display: inline-grid; place-items: center; font-size: 10px; font-weight: 700; }
+    .page-h1 { font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(36px, 4vw, 58px); font-weight: 400;
+      line-height: 1.15; letter-spacing: -.4px; margin-bottom: 16px; }
+    .page-h1 em { font-style: italic; color: var(--accent-l); }
+    .page-sub { font-size: 16px; color: var(--text-2); max-width: 520px; line-height: 1.7; }
+
+    /* REVEAL */
+    .reveal { opacity: 1; transform: none; }
+    body.js-ready .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s, transform .55s; }
+    body.js-ready .reveal.visible { opacity: 1; transform: none; }
+
+    /* GRID */
+    .showcase-section { padding: 20px 40px 80px; max-width: var(--max); margin: 0 auto; }
+    .showcase-label { font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--accent-l); margin-bottom: 24px; }
+    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-bottom: 3px; }
+    .video-grid.two-col { grid-template-columns: repeat(2, 1fr); }
+
+    .video-card { position: relative; overflow: hidden; cursor: none; background: #0a0a0a; }
+    .video-wrap { position: relative; width: 100%; padding-top: 56.25%; }
+    .video-wrap.portrait { padding-top: 177.78%; }
+    .video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-wrap img.poster { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .3s; }
+    .video-card.is-playing .poster { opacity: 0; }
+
+    .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; color: #fff; z-index: 2; pointer-events: none;
+      transition: opacity .5s ease; }
+    .video-card.is-playing .play-btn { opacity: 0; }
+    .video-card.is-playing::after { content: ''; position: absolute; top: 10px; right: 10px;
+      width: 8px; height: 8px; border-radius: 50%; background: #22c55e; z-index: 3;
+      animation: pulse-dot 1.5s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+    .video-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
+    .video-badge { position: absolute; top: 12px; left: 12px; z-index: 2;
+      display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 600;
+      color: var(--yc); background: rgba(0,0,0,.7); backdrop-filter: blur(8px);
+      border: 1px solid rgba(245,128,59,.2); border-radius: 20px; padding: 3px 8px; }
+    .video-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+    .video-desc { font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.5; }
+
+    /* TESTIMONIAL VIDEO SECTION */
+    .testi-video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+    .testi-video-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: none; transition: border-color .2s; }
+    .testi-video-card:hover { border-color: var(--border-h); }
+    .testi-video-wrap { position: relative; padding-top: 56.25%; background: #0a0a0a; }
+    .testi-video-wrap video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .testi-video-wrap img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .testi-video-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff;
+      z-index: 2; pointer-events: none; transition: opacity .4s; }
+    .testi-video-card.is-playing .testi-video-play { opacity: 0; }
+    .testi-meta { padding: 16px; }
+    .testi-name { font-size: 14px; font-weight: 600; color: #fff; }
+    .testi-role { font-size: 12px; color: var(--text-2); }
+
+    /* CTA */
+    .cta-band { border-top: 1px solid var(--border); padding: 80px 40px; text-align: center; }
+    .cta-band h2 { font-family: 'Instrument Serif', Georgia, serif;
+      font-size: clamp(28px,3.2vw,44px); font-weight: 400; line-height: 1.15; margin-bottom: 16px; }
+    .cta-band h2 em { font-style: italic; color: var(--accent-l); }
+    .cta-band p { font-size: 15px; color: var(--text-2); margin-bottom: 32px; }
+    .btn-primary { display: inline-block; font-size: 14px; font-weight: 500;
+      padding: 12px 24px; background: var(--accent); color: #fff;
+      border-radius: 4px; text-decoration: none; transition: background .2s; cursor: none; }
+    .btn-primary:hover { background: var(--accent-l); }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 32px 40px; }
+    .footer-inner { max-width: var(--max); margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .footer-copy { font-size: 12px; color: var(--text-3); }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-2); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: #fff; }
+
+    /* Dot texture */
+    body::before { content: ''; position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px; pointer-events: none; z-index: 0; }
+    nav, .page-hero, .showcase-section, .cta-band, footer { position: relative; z-index: 1; }
+
+    @media (max-width: 900px) {
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+      .testi-video-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .video-grid, .video-grid.two-col { grid-template-columns: 1fr; }
+      .page-hero, .showcase-section, .cta-band, footer { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-mark">U</div>
+      <span class="nav-name">Unveil</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="yc.html" class="active">YC Showcase</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+    </ul>
+    <a href="https://cal.com/unveilstudio" class="nav-cta">Book a call</a>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="yc-pill"><span class="yc-dot">Y</span> Y Combinator</div>
+    <h1 class="page-h1 reveal">Every launch video we've made<br>for <em>YC founders.</em></h1>
+    <p class="page-sub reveal">12 batches. 10+ launches. Every video built around one sentence of founder certainty — using The Unveil Protocol.</p>
+  </div>
+
+  <!-- MAIN YC LAUNCHES -->
+  <div class="showcase-section">
+    <div class="showcase-label">YC Launch Videos</div>
+    <div class="video-grid reveal">
+
+      <!-- Item -->
+      <div class="video-card">
+        <div class="video-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC F25</div>
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/item-1.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Item+-+YC+combinator+Launch+v10.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Item</div>
+          <div class="video-desc">AI-native CRM — 2.3M views in week one.</div>
+        </div>
+      </div>
+
+      <!-- Lance -->
+      <div class="video-card">
+        <div class="video-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+        <div class="video-wrap portrait">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/yc-lance.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/LanceAI+-+Y+combinator+launch+-+Video+-+V7+-+9X16.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Lance</div>
+          <div class="video-desc">AI voice agent for hotel ops.</div>
+        </div>
+      </div>
+
+      <!-- QualGent -->
+      <div class="video-card">
+        <div class="video-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC F25</div>
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/qualgent.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/QualGent+-+Launch+video+-+V10+-+Video+(3).mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">QualGent</div>
+          <div class="video-desc">AI QA agents for engineering teams.</div>
+        </div>
+      </div>
+
+      <!-- Común -->
+      <div class="video-card">
+        <div class="video-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC F25</div>
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/comun.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Video+%231-+Launching+the+New+Comun+v3+(3).mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Común</div>
+          <div class="video-desc">Modern banking for Latin America.</div>
+        </div>
+      </div>
+
+      <!-- JustAI -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/justai.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/JustAI+-+TeoML+-+V9+-+16x9.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">JustAI</div>
+          <div class="video-desc">AI legal research that cuts work in half.</div>
+        </div>
+      </div>
+
+      <!-- Zerion -->
+      <div class="video-card">
+        <div class="video-wrap portrait">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/zerion.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Zerion+-+Solana+new+launch+-+Video+-+v8+-+9x16+(1).mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Zerion</div>
+          <div class="video-desc">DeFi wallet across 50+ chains.</div>
+        </div>
+      </div>
+
+      <!-- Thatch -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/thatch.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Get+Your+Team+Quote+-+Thatch+-+VID+-+V10.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Thatch</div>
+          <div class="video-desc">Health benefits from the future.</div>
+        </div>
+      </div>
+
+      <!-- Arzule -->
+      <div class="video-card">
+        <div class="video-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/yc-arzule.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Arzule+-+Y+combinator+Launch+-+Demo+-+V6.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Arzule</div>
+          <div class="video-desc">Compliance automation for regulated industries.</div>
+        </div>
+      </div>
+
+      <!-- Q2Q -->
+      <div class="video-card">
+        <div class="video-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/yc-q2q.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Q2Q+-+Y+combinator+launch+-+Video+-+v3-+16x9.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Q2Q</div>
+          <div class="video-desc">B2B payments built for speed.</div>
+        </div>
+      </div>
+
+      <!-- Ashr -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/yc-ashr.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Ashr+-+YC+Launch+-+v2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Ashr</div>
+          <div class="video-desc">YC launch video.</div>
+        </div>
+      </div>
+
+      <!-- Copperlane -->
+      <div class="video-card">
+        <div class="video-wrap">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/yc-copperlane.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Copperlane+-+YC+Launch+-+V4+-+4K.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Copperlane</div>
+          <div class="video-desc">YC launch video.</div>
+        </div>
+      </div>
+
+      <!-- Item Teaser -->
+      <div class="video-card">
+        <div class="video-wrap portrait">
+          <div class="play-btn">▶</div>
+          <video muted loop playsinline preload="none" poster="assets/thumbnails/item-2.jpg">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Item+-+It's+Magic+-+VID+-+V7+(1).mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-overlay">
+          <div class="video-title">Item — Teaser</div>
+          <div class="video-desc">Short, sharp, built for social.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TESTIMONIAL VIDEOS -->
+  <div class="showcase-section">
+    <div class="showcase-label">Founder Testimonials</div>
+    <div class="testi-video-grid reveal">
+
+      <div class="testi-video-card">
+        <div class="testi-video-wrap">
+          <div class="testi-video-play">▶</div>
+          <img src="assets/thumbnails/brianna.jpg" alt="Brianna Lin">
+          <video muted loop playsinline preload="none">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/Brianna+Lin+-+Testimonial+v1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="testi-meta">
+          <div class="testi-name">Brianna Lin</div>
+          <div class="testi-role">Co-Founder at Q2Q · YC W26</div>
+        </div>
+      </div>
+
+      <div class="testi-video-card">
+        <div class="testi-video-wrap">
+          <div class="testi-video-play">▶</div>
+          <img src="assets/thumbnails/michela-thumbnail.jpg" alt="Michela Ferrari">
+          <video muted loop playsinline preload="none">
+            <source src="https://unveilvideo.s3.us-east-2.amazonaws.com/michela+final.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="testi-meta">
+          <div class="testi-name">Michela Ferrari</div>
+          <div class="testi-role">Head of Design at Común · YC F25</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-band reveal">
+    <h2>Your launch is next.<br>Make it <em>count.</em></h2>
+    <p>30-min call. No commitment. Full refund if we miss.</p>
+    <a href="https://cal.com/unveilstudio" class="btn-primary magnetic">Book a call — 2 slots left →</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;">
+        <div class="nav-mark">U</div>
+        <span class="nav-name" style="font-size:14px;color:var(--text-2);">Unveil Studio</span>
+      </a>
+      <ul class="footer-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="https://cal.com/unveilstudio">Book a call</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 Unveil Studio</span>
+    </div>
+  </footer>
+
+  <script>
+    // CURSOR
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    })();
+    document.querySelectorAll('a, button, .video-card, .testi-video-card').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+    if ('ontouchstart' in window) {
+      document.body.style.cursor = 'auto';
+      if (cursor) cursor.style.display = 'none';
+      if (ring) ring.style.display = 'none';
+    }
+
+    // NAV
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', scrollY > 40); });
+
+    // REVEAL
+    document.body.classList.add('js-ready');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // VIDEO HOVER — work cards
+    document.querySelectorAll('.video-card').forEach(card => {
+      const video = card.querySelector('video');
+      if (!video) return;
+      card.addEventListener('mouseenter', () => { video.play().catch(()=>{}); card.classList.add('is-playing'); });
+      card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; card.classList.remove('is-playing'); });
+    });
+
+    // VIDEO CLICK — testimonial videos (click to play/pause)
+    document.querySelectorAll('.testi-video-card').forEach(card => {
+      const video = card.querySelector('video');
+      const img = card.querySelector('img');
+      if (!video) return;
+      card.addEventListener('click', () => {
+        if (video.paused) {
+          video.play().catch(()=>{});
+          card.classList.add('is-playing');
+          if (img) img.style.opacity = '0';
+        } else {
+          video.pause();
+          card.classList.remove('is-playing');
+          if (img) img.style.opacity = '1';
+        }
+      });
+    });
+
+    // MAGNETIC
+    document.querySelectorAll('.magnetic').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.15}px, ${(e.clientY - r.top - r.height/2) * 0.15}px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  </script>
+</body>
+</html>
