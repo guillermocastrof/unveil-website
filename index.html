@@ -829,6 +829,14 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
+    /* Mobile: always show play button */
+    @media (hover: none) and (pointer: coarse) {
+      .play-btn {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+    }
+
     .work-title {
       font-family: 'Instrument Serif', Georgia, serif;
       font-size: 20px;
@@ -2104,6 +2112,81 @@
       });
     }
 
+  </script>
+
+  <!-- ── VIDEO LIGHTBOX ── -->
+  <div id="video-lightbox" style="
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(0,0,0,0.92); align-items:center; justify-content:center;
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  ">
+    <button id="lightbox-close" style="
+      position:absolute; top:16px; right:16px;
+      width:40px; height:40px; border-radius:50%;
+      background:rgba(255,255,255,0.12); border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-size:20px; line-height:1; z-index:10000;
+      -webkit-tap-highlight-color:transparent;
+    ">✕</button>
+    <video id="lightbox-video" style="
+      max-width:100vw; max-height:100vh;
+      width:100%; height:auto;
+      outline:none;
+    " playsinline controls></video>
+  </div>
+
+  <script>
+  (function() {
+    const lightbox = document.getElementById('video-lightbox');
+    const lbVideo  = document.getElementById('lightbox-video');
+    const closeBtn = document.getElementById('lightbox-close');
+
+    function openLightbox(src) {
+      lbVideo.src = src;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      lbVideo.play().catch(() => {});
+    }
+
+    function closeLightbox() {
+      lbVideo.pause();
+      lbVideo.src = '';
+      lightbox.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // On mobile (touch), tap card = open lightbox
+    // On desktop, keep existing hover-to-play behaviour
+    const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    document.querySelectorAll('.work-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Don't intercept the "View post" link
+        if (e.target.closest('a')) return;
+        if (!isTouchDevice()) return; // desktop handled by hover
+        const video = card.querySelector('video');
+        if (!video) return;
+        e.preventDefault();
+        openLightbox(video.src || video.currentSrc || video.getAttribute('src'));
+      });
+
+      // Touch: show play icon hint immediately (no hover state on mobile)
+      card.addEventListener('touchstart', function() {
+        card.classList.add('touch-active');
+      }, { passive: true });
+      card.addEventListener('touchend', function() {
+        setTimeout(() => card.classList.remove('touch-active'), 300);
+      }, { passive: true });
+    });
+  })();
   </script>
 </body>
 </html>
