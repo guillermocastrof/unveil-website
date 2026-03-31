@@ -338,15 +338,12 @@
       color: var(--text-2);
       font-weight: 600;
       max-width: 520px;
-      line-height: 1.7;
+      line-height: 1.8;
       margin-bottom: 44px;
       opacity: 0;
       transform: translateY(12px);
       animation: fadeUp 0.8s ease 0.9s forwards;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: block;
     }
 
     .yc-pill {
@@ -361,6 +358,8 @@
       font-weight: 600;
       color: var(--yc);
       letter-spacing: 0.12em;
+      white-space: nowrap;
+      vertical-align: middle;
     }
 
     .yc-dot {
@@ -1525,9 +1524,7 @@
       </h1>
 
       <p class="hero-sub">
-        We craft animated launch videos for
-        <span class="yc-pill"><span class="yc-dot">Y</span> Y Combinator</span>
-        companies. Your launch week is too important to wing it.
+        We craft animated launch videos for <span class="yc-pill"><span class="yc-dot">Y</span>&nbsp;Y&nbsp;Combinator</span> companies. Your launch week is too important to wing it.
       </p>
 
       <div class="hero-actions">
