@@ -206,18 +206,18 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.70);
     }
-    /* Vignette on top of the dim */
+    /* Soft edge vignette — center stays clean, edges diffuse to black */
     .hero-video-wrap::before {
       content: '';
       position: absolute;
       inset: 0;
       z-index: 1;
       background:
-        radial-gradient(ellipse 110% 90% at 50% 50%,
-          transparent 0%,
-          rgba(0,0,0,0.25) 55%,
-          rgba(0,0,0,0.80) 85%,
-          rgba(0,0,0,0.97) 100%);
+        radial-gradient(ellipse 85% 80% at 50% 50%,
+          transparent 40%,
+          rgba(0,0,0,0.18) 62%,
+          rgba(0,0,0,0.55) 80%,
+          rgba(0,0,0,0.88) 100%);
     }
 
     .orb {
@@ -1367,7 +1367,6 @@
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#process">Process</a></li>
         <li><a href="#pricing">Pricing</a></li>
-            <li><a href="yc.html">YC Showcase</a></li>
         <li><a href="/yc-launches">YC Launches</a></li>
       </ul>
       <a href="https://cal.link/video-call" class="nav-cta">Book a call →</a>
@@ -1483,27 +1482,87 @@
 
       <div class="work-grid">
 
-        <!-- Featured: Item Product -->
+        <!-- Featured: Lance -->
         <div class="work-card featured reveal">
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/LanceAI+-+Y+combinator+launch+-+Video+-+V7+-+9X16.mp4" muted loop playsinline preload="none" poster="assets/thumbs/lance.jpg"></video>
+          <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+          <div class="play-btn"></div>
+          <div class="work-overlay">
+            <h3 class="work-title">Lance</h3>
+            <p class="work-desc">AI voice agent that handles guest communication and orchestrates operations across your hotel.</p>
+            <a href="https://www.linkedin.com/posts/y-combinator_lance-yc-w26-builds-ai-agents-for-hotel-activity-7426671312443531264-NnIK" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+          </div>
+        </div>
+
+        <!-- Item -->
+        <div class="work-card reveal">
           <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Item+-+YC+combinator+Launch+v10.mp4" muted loop playsinline preload="none" poster="assets/thumbs/item-1.jpg"></video>
           <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC F25</div>
           <div class="play-btn"></div>
           <div class="work-overlay">
             <h3 class="work-title">Item</h3>
             <p class="work-desc">AI-native CRM with deep context that understands your business and works like your best employee.</p>
-              <a href="https://www.linkedin.com/posts/y-combinator_item-yc-f25-is-the-ai-native-crm-that-works-activity-7391957488042090498-Q7E_" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+            <a href="https://www.linkedin.com/posts/y-combinator_item-yc-f25-is-the-ai-native-crm-that-works-activity-7391957488042090498-Q7E_" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
           </div>
         </div>
 
-        <!-- Lance -->
+        <!-- Arzule -->
         <div class="work-card reveal">
-          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/LanceAI+-+Y+combinator+launch+-+Video+-+V7+-+9X16.mp4" muted loop playsinline preload="none" poster="assets/thumbs/lance.jpg"></video>
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Arzule+-+Y+combinator+Launch+-+Demo+-+V6.mp4" muted loop playsinline preload="none" poster="assets/thumbs/arzule.jpg"></video>
           <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
           <div class="play-btn"></div>
           <div class="work-overlay">
-            <h3 class="work-title">Lance</h3>
-            <p class="work-desc">AI voice agent that handles guest communication and orchestrates hotel operations.</p>
-              <a href="https://www.linkedin.com/posts/y-combinator_lance-yc-w26-builds-ai-agents-for-hotel-activity-7426671312443531264-NnIK" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+            <h3 class="work-title">Arzule</h3>
+            <p class="work-desc">Revenue intelligence for your partner ecosystem. Autonomous agents that map markets and optimize revenue channels.</p>
+            <a href="https://www.linkedin.com/posts/y-combinator_arzule-yc-w26-uses-ai-to-turn-partnerships-ugcPost-7433171763250905088-fiGj" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+          </div>
+        </div>
+
+        <!-- Q2Q -->
+        <div class="work-card reveal">
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Q2Q+-+Y+combinator+launch+-+Video+-+v3-+16x9.mp4" muted loop playsinline preload="none" poster="assets/thumbs/q2q.jpg"></video>
+          <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+          <div class="play-btn"></div>
+          <div class="work-overlay">
+            <h3 class="work-title">Q2Q</h3>
+            <p class="work-desc">AI deal sourcing engine that never sleeps. Helps deal teams get first calls booked with companies they want to buy.</p>
+            <a href="https://www.linkedin.com/posts/y-combinator_q2q-yc-w26-helps-deal-teams-find-acquisition-activity-7427048720732475392-_jeU" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+          </div>
+        </div>
+
+        <!-- Ashr -->
+        <div class="work-card reveal">
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Ashr+-+YC+Launch+-+v2.mp4" muted loop playsinline preload="none" poster="assets/thumbs/ashr.jpg"></video>
+          <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+          <div class="play-btn"></div>
+          <div class="work-overlay">
+            <h3 class="work-title">Ashr</h3>
+            <p class="work-desc">Ship AI agents with confidence. Run evals, catch regressions, fix failures — before your users find them.</p>
+            <a href="https://www.linkedin.com/posts/y-combinator_ashr-yc-w26-automatically-validates-your-activity-7433571704167280640-hvLH" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+          </div>
+        </div>
+
+        <!-- Copperlane -->
+        <div class="work-card reveal">
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Copperlane+-+YC+Launch+-+V4+-+4K.mp4" muted loop playsinline preload="none" poster="assets/thumbs/copperlane.jpg"></video>
+          <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
+          <div class="play-btn"></div>
+          <div class="work-overlay">
+            <h3 class="work-title">Copperlane</h3>
+            <p class="work-desc">The AI-native platform for mortgage origination.</p>
+            <a href="https://www.linkedin.com/posts/y-combinator_copperlane-yc-w26-builds-ai-native-software-ugcPost-7434991981967208448-5gzW" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
+          </div>
+        </div>
+
+        <!-- Featured: JustAI -->
+        <div class="work-card featured reveal">
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/JustAI+-+TeoML+-+V9+-+16x9.mp4" muted loop playsinline preload="none" poster="assets/thumbs/justai.jpg"></video>
+          <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC F25</div>
+          <div class="play-btn"></div>
+          <div class="work-overlay">
+            <h3 class="work-title">JustAI</h3>
+            <p class="work-desc">A modern workflow for lifecycle marketing that gives marketers back their time.</p>
+            <a href="https://www.linkedin.com/posts/neha01mittal_its-here-just-words-is-no-longer-just-activity-7387512212556337152-uGiX" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
           </div>
         </div>
 
@@ -1514,61 +1573,8 @@
           <div class="play-btn"></div>
           <div class="work-overlay">
             <h3 class="work-title">QualGent</h3>
-            <p class="work-desc">Ship tested code at the speed of thought with AI QA agents.</p>
-              <a href="https://www.linkedin.com/posts/y-combinator_qualgent-yc-x25s-is-now-a-fully-capable-ugcPost-7401707288614649858-7qS3" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
-          </div>
-        </div>
-
-        <!-- Común -->
-        <div class="work-card reveal">
-          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Video+%231-+Launching+the+New+Comun+v3+(3).mp4" muted loop playsinline preload="none" poster="assets/thumbs/comun.jpg"></video>
-          <div class="play-btn"></div>
-          <div class="work-overlay">
-            <h3 class="work-title">Común</h3>
-            <p class="work-desc">Modern banking built for Latin America. Send, receive, and save in USD and local currencies.</p>
-          </div>
-        </div>
-
-        <!-- JustAI -->
-        <div class="work-card reveal">
-          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/JustAI+-+TeoML+-+V9+-+16x9.mp4" muted loop playsinline preload="none" poster="assets/thumbs/justai.jpg"></video>
-          <div class="play-btn"></div>
-          <div class="work-overlay">
-            <h3 class="work-title">JustAI</h3>
-            <p class="work-desc">AI-powered legal research that finds what lawyers miss and cuts research time in half.</p>
-              <a href="https://www.linkedin.com/posts/neha01mittal_its-here-just-words-is-no-longer-just-activity-7387512212556337152-uGiX" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
-          </div>
-        </div>
-
-        <!-- Zerion -->
-        <div class="work-card reveal">
-          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Zerion+-+Solana+new+launch+-+Video+-+v8+-+9x16+(1).mp4" muted loop playsinline preload="none" poster="assets/thumbs/zerion.jpg"></video>
-          <div class="play-btn"></div>
-          <div class="work-overlay">
-            <h3 class="work-title">Zerion</h3>
-            <p class="work-desc">A DeFi, Ethereum, and Solana wallet in one. Track your crypto across 50+ chains.</p>
-              <a href="https://x.com/zerion/status/1938235915534799146" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
-          </div>
-        </div>
-
-        <!-- Thatch -->
-        <div class="work-card reveal">
-          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Get+Your+Team+Quote+-+Thatch+-+VID+-+V10.mp4" muted loop playsinline preload="none" poster="assets/thumbs/thatch.jpg"></video>
-          <div class="play-btn"></div>
-          <div class="work-overlay">
-            <h3 class="work-title">Thatch</h3>
-            <p class="work-desc">Health benefits from the future. Set a budget, employees spend it how they want.</p>
-          </div>
-        </div>
-
-        <!-- Featured: Item Teaser -->
-        <div class="work-card featured reveal">
-          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Item+-+It's+Magic+-+VID+-+V7+(1).mp4" muted loop playsinline preload="none" poster="assets/thumbs/item-2.jpg"></video>
-          <div class="work-badge"><span class="yc-dot" style="font-size:8px">Y</span> YC F25</div>
-          <div class="play-btn"></div>
-          <div class="work-overlay">
-            <h3 class="work-title">Item — Teaser</h3>
-            <p class="work-desc">A second cut for Item's launch week. Short, sharp, and built for social.</p>
+            <p class="work-desc">Ship tested code at the speed of thought with AI QA agents that 100x your testing productivity.</p>
+            <a href="https://www.linkedin.com/posts/y-combinator_qualgent-yc-x25s-is-now-a-fully-capable-ugcPost-7401707288614649858-7qS3" target="_blank" rel="noopener" class="post-link" onclick="event.stopPropagation()">View post ↗</a>
           </div>
         </div>
 
@@ -1764,7 +1770,6 @@
             <li><a href="#work">Work</a></li>
             <li><a href="#process">Process</a></li>
             <li><a href="#pricing">Pricing</a></li>
-            <li><a href="yc.html">YC Showcase</a></li>
             <li><a href="#testimonials">Testimonials</a></li>
           </ul>
         </div>
