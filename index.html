@@ -127,11 +127,6 @@
       flex-shrink: 0;
     }
 
-    .nav-logo-mark svg {
-      width: 28px;
-      height: 28px;
-    }
-
     .nav-logo-name {
       font-family: 'Inter', sans-serif;
       font-weight: 600;
@@ -1362,6 +1357,8 @@
     @media (max-width: 768px) {
       body { cursor: auto; }
       #cursor, #cursor-ring { display: none; }
+      nav { height: 52px; }
+      body { padding-top: 52px; }
       .nav-inner { padding: 0 20px; }
       .nav-links { display: none; }
       .hero-inner { padding: 64px 20px 48px; }
@@ -1471,18 +1468,7 @@
     <div class="nav-inner">
       <a href="#" class="nav-logo">
         <div class="nav-logo-mark">
-          <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="ugl" x1="20" y1="0" x2="80" y2="110" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#7B2FD4"/>
-                <stop offset="100%" stop-color="#B06EF5"/>
-              </linearGradient>
-            </defs>
-            <!-- left petal -->
-            <path d="M10 5 C10 5 10 62 10 68 C10 88 28 105 50 105 L50 75 C38 75 30 67 30 55 L30 5 Z" fill="url(#ugl)" opacity="0.92"/>
-            <!-- right petal -->
-            <path d="M90 5 C90 5 90 62 90 68 C90 88 72 105 50 105 L50 75 C62 75 70 67 70 55 L70 5 Z" fill="url(#ugl)" opacity="0.78"/>
-          </svg>
+          <img src="assets/unveil-logo.jpg" alt="Unveil" width="28" height="28" style="border-radius:6px;display:block;">
         </div>
         <span class="nav-logo-name">Unveil</span>
       </a>
