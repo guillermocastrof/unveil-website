@@ -860,6 +860,7 @@
     }
 
     .t-card {
+      position: relative;
       background: var(--elevated);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -868,20 +869,77 @@
       flex-direction: column;
       gap: 0;
       transition: border-color 0.3s;
+      overflow: hidden;
+      min-height: 340px;
     }
 
     .t-card:hover { border-color: var(--border-hover); }
+
+    /* Photo background */
+    .t-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+      opacity: 0.13;
+      transition: opacity 0.4s;
+      z-index: 0;
+    }
+    .t-card:hover .t-bg { opacity: 0.18; }
+
+    /* Video testimonial card */
+    .t-card.t-video-card {
+      padding: 0;
+      cursor: pointer;
+      min-height: 340px;
+    }
+    .t-card.t-video-card video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .t-card.t-video-card .t-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 32%, rgba(0,0,0,0.15) 70%, transparent 100%);
+      z-index: 1;
+    }
+    .t-card.t-video-card .t-author {
+      position: absolute;
+      bottom: 24px; left: 24px; right: 24px;
+      z-index: 2;
+    }
+    .t-play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .t-play-btn svg { width: 20px; height: 20px; fill: #fff; margin-left: 3px; }
+    .t-card.t-video-card:hover .t-play-btn { background: rgba(255,255,255,0.28); transform: translate(-50%,-50%) scale(1.08); }
+    .t-card.t-video-card.playing .t-play-btn { opacity: 0; pointer-events: none; }
+    .t-card.t-video-card.playing video { cursor: pointer; }
 
     .t-quote {
       font-family: 'Instrument Serif', Georgia, serif;
       font-size: 16px;
       font-weight: 400;
       line-height: 1.7;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.82);
       margin-bottom: 28px;
       flex: 1;
       position: relative;
       padding-top: 40px;
+      z-index: 1;
     }
 
     .t-quote::before {
@@ -895,7 +953,7 @@
       opacity: 0.6;
     }
 
-    .t-author { display: flex; align-items: center; gap: 14px; }
+    .t-author { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
 
     .t-avatar {
       width: 44px; height: 44px;
@@ -1595,7 +1653,9 @@
       </div>
 
       <div class="t-grid">
+        <!-- Nikhil — photo bg -->
         <div class="t-card reveal">
+          <div class="t-bg" style="background-image:url('assets/thumbs/nikhil.jpg')"></div>
           <p class="t-quote">I worked with Unveil on our Y Combinator W26 launch video for Arzule, and they did an excellent job. YC launch week is fast-paced and high pressure, and we needed a video that could clearly communicate a fairly complex product in a short amount of time without feeling overproduced or drawn out. Unveil understood what we were building very quickly and translated it into a clear, compelling narrative with strong pacing and no wasted time. They were also extremely responsive throughout the process, turning around edits quickly and incorporating feedback without friction. What stood out most was that they cared about getting the outcome right, not just delivering an edit.</p>
           <div class="t-author">
             <div class="t-avatar"><img src="assets/thumbs/nikhil.jpg" alt="Nikhil Reddy" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
@@ -1604,7 +1664,9 @@
           </div>
         </div>
 
+        <!-- Andres — photo bg -->
         <div class="t-card reveal">
+          <div class="t-bg" style="background-image:url('assets/thumbs/andres.jpg')"></div>
           <p class="t-quote">We've been working with Unveil Studio for months, and they consistently deliver the kind of high-trust, high-craft partnership that's rare to find. From the start, their team has been thoughtful, proactive, and genuinely invested in the work. Their attention to detail shows up in every cut, and their communication is best-in-class: clear timelines, frequent check-ins, and zero guesswork about where things stand. They don't just execute—they help shape the goal, keep the project moving, and make the final product stronger. We trusted them our YC launch video, and it was top quality.</p>
           <div class="t-author">
             <div class="t-avatar"><img src="assets/thumbs/andres.jpg" alt="Andres Santanilla" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
@@ -1613,11 +1675,16 @@
           </div>
         </div>
 
-        <div class="t-card reveal">
-          <p class="t-quote">Working with Unveil was seamless from start to finish. They moved quickly, communicated clearly, and genuinely cared about getting the product right. The final video was sharp, confident, and perfectly aligned with how we wanted to present ourselves during launch week.</p>
+        <!-- Brianna — video testimonial -->
+        <div class="t-card t-video-card reveal" id="t-brianna">
+          <video src="https://unveilvideo.s3.us-east-2.amazonaws.com/Brianna+Lin+-+Testimonial+v1.mp4" muted playsinline preload="none" poster="assets/thumbs/brianna.jpg"></video>
+          <div class="t-video-overlay"></div>
+          <div class="t-play-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
           <div class="t-author">
             <div class="t-avatar"><img src="assets/thumbs/brianna.jpg" alt="Brianna Lin" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
-            <div><div class="t-name">Brianna Lin</div><div class="t-role">Co-Founder at Q2Q</div></div>
+            <div><div class="t-name" style="color:#fff">Brianna Lin</div><div class="t-role" style="color:rgba(255,255,255,0.6)">Co-Founder at Q2Q</div></div>
             <div class="t-batch"><span class="yc-dot" style="font-size:8px">Y</span> YC W26</div>
           </div>
         </div>
@@ -1953,6 +2020,27 @@
       });
     });
 
+
+    // Brianna video testimonial — click to play/pause with sound
+    const briCard = document.getElementById('t-brianna');
+    if (briCard) {
+      const briVideo = briCard.querySelector('video');
+      const briBtn = briCard.querySelector('.t-play-btn');
+      briCard.addEventListener('click', () => {
+        if (briVideo.paused) {
+          briVideo.muted = false;
+          briVideo.play();
+          briCard.classList.add('playing');
+        } else {
+          briVideo.pause();
+          briCard.classList.remove('playing');
+        }
+      });
+      briVideo.addEventListener('ended', () => {
+        briCard.classList.remove('playing');
+        briVideo.currentTime = 0;
+      });
+    }
 
   </script>
 </body>
