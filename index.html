@@ -1357,9 +1357,11 @@
     @media (max-width: 768px) {
       body { cursor: auto; }
       #cursor, #cursor-ring { display: none; }
-      nav { height: 52px; }
-      body { padding-top: 52px; }
-      .nav-inner { padding: 0 20px; }
+      nav { height: 52px !important; }
+      body { padding-top: 52px !important; }
+      .nav-inner { padding: 0 16px !important; }
+      nav { background: rgba(8, 6, 18, 0.72) !important; }
+      nav { -webkit-backdrop-filter: blur(20px) saturate(160%) brightness(0.9) !important; backdrop-filter: blur(20px) saturate(160%) brightness(0.9) !important; }
       .nav-links { display: none; }
       .hero-inner { padding: 64px 20px 48px; }
       .section { padding: 72px 0; }
