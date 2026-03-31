@@ -208,19 +208,18 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.70);
     }
-    /* Strong edge vignette — hard black border, clean center */
+    /* Dark edge gradient — works together with blur panels */
     .hero-video-wrap::before {
       content: '';
       position: absolute;
       inset: 0;
       z-index: 1;
       background:
-        radial-gradient(ellipse 70% 65% at 50% 50%,
-          transparent 25%,
-          rgba(0,0,0,0.30) 52%,
-          rgba(0,0,0,0.75) 72%,
-          rgba(0,0,0,0.97) 90%,
-          #000 100%);
+        radial-gradient(ellipse 72% 68% at 50% 50%,
+          transparent 30%,
+          rgba(0,0,0,0.25) 55%,
+          rgba(0,0,0,0.70) 75%,
+          rgba(0,0,0,0.95) 92%);
     }
 
     .orb {
@@ -489,6 +488,45 @@
       color: var(--text-3);
     }
 
+
+    /* ── Real edge blur via backdrop-filter + mask ── */
+    .hero-edge-blur {
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-edge-blur-left {
+      top: 0; left: 0; bottom: 0;
+      width: 220px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+      mask-image: linear-gradient(to right, black 0%, transparent 100%);
+    }
+    .hero-edge-blur-right {
+      top: 0; right: 0; bottom: 0;
+      width: 220px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+      mask-image: linear-gradient(to left, black 0%, transparent 100%);
+    }
+    .hero-edge-blur-top {
+      top: 0; left: 0; right: 0;
+      height: 160px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    }
+    .hero-edge-blur-bottom {
+      bottom: 0; left: 0; right: 0;
+      height: 160px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+      mask-image: linear-gradient(to top, black 0%, transparent 100%);
+    }
     /* ── LOGOS ── */
     .logos-strip {
       padding: 52px 0;
@@ -1440,6 +1478,10 @@
     <div class="hero-video-wrap">
       <video autoplay muted loop playsinline disablepictureinpicture preload="auto"
              src="https://unveilvideo.s3.us-east-2.amazonaws.com/Thumbnail+bg.mp4"></video>
+      <div class="hero-edge-blur hero-edge-blur-left"></div>
+      <div class="hero-edge-blur hero-edge-blur-right"></div>
+      <div class="hero-edge-blur hero-edge-blur-top"></div>
+      <div class="hero-edge-blur hero-edge-blur-bottom"></div>
     </div>
 
     <div class="hero-bg">
